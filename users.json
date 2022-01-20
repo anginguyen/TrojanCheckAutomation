@@ -1,0 +1,12 @@
+[
+    {
+        "username": "studentone",
+        "password": "Thisisafakepassword!",
+        "phone_number": "+15037777777"
+    },
+    {
+        "username": "studenttwo",
+        "password": "Anotherfakepassword",
+        "phone_number": "+19717777777"
+    }
+]
