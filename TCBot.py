@@ -12,6 +12,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 from twilio.rest import Client
 import base64
+import requests
 
 from time import sleep
 from Student import Student
