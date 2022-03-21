@@ -64,17 +64,25 @@ def automationBot(users):
         passwordInput = driver.find_element(By.ID, 'password')
         passwordInput.send_keys(user.password)
         passwordInput.submit()
-        sleep(5)
+        sleep(10)   # Wait for user to do 2-factor authentication
 
         # Clicks various submit buttons to proceed
         for i in range(1,4):
             clickSubmitButton(btnNames[i])
+            sleep(1)
 
-        # Checks off "No" for all COVID responses
-        clickNoButton(3, 5)
+        # "Are you up to date with your COVID vaccinations?" - not everyone gets asked this question
+        driver.find_element(By.ID, "mat-button-toggle-1-button").click()
         clickSubmitButton(btnNames[4])
-        clickNoButton(14, 26)
+
+        # "Are you required to isolate?"
+        clickNoButton(5, 5)     # Is (2, 2) for those who didn't get asked the COVID vaccine question
         clickSubmitButton(btnNames[4])
+
+        # Checks off "No" for all COVID symptom responses
+        clickNoButton(14, 26)   # Is (11, 23) for those who didn't get asked the COVID vaccine question
+        clickSubmitButton(btnNames[4])
+        sleep(1)
 
         # Checks off confirmation checkbox and submits
         driver.execute_script("arguments[0].click();", driver.find_element(By.ID, 'mat-checkbox-1-input'))
@@ -88,17 +96,17 @@ def automationBot(users):
 
         sleep(3)
 
-        # Base64 and upload TC screenshot 
+        # Convert TC screenshot to base64 and upload to website
         with open("TrojanCheck.png", "rb") as file:
             url = "https://api.imgbb.com/1/upload"
             payload = {
-                "key": 'IMGBB API KEY',
+                "key": "cf8939a790d1e4221645c27d1137f997",  # Personal key
                 "image": base64.b64encode(file.read()),
             }
             res = requests.post(url, payload)
             objj = res.json()
 
-        image_link = objj["data"]["url"]
+        image_link = objj["data"]["url"]    # Image link to screenshot
 
         # Text image to student's phone number with Twilio SMS API
         account_sid = 'TWILIO SID'
